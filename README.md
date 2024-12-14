@@ -16,6 +16,7 @@ We train the models using historical stock data and ask them to predict a stock'
 The directories contain 50 large-cap and 50 mid-cap stocks, respectively.
 - Saved data: the trained LSTM model is saved as `lstm_trained.keras`.
 The `kt_dir` directory contains cache files for LSTM hyper-parameter fine-tuning.
+The `graphs` directory contains saved versions of accuracy and day-trading simulation graphs.
 
 ## Running the Code
 
