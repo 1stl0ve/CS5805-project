@@ -1,0 +1,2335 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Comparing Machine Learning Models for Stock Market Price Prediction &#8212; CS 5805 Project</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6c69c9b1" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'project';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Comparing Machine Learning Models for Stock Market Price Prediction" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <!--<div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">-->
+      <div id="pst-primary-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+<!--
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">CS 5805 Project</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Project Code</a></li>
+</ul>
+
+    </div>
+</nav>
+--></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+<!--        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+            </button></div>-->
+<a class="navbar-brand logo" href="index.html">
+    <p class="title logo__title">Home</p>
+</a>
+
+    </div>
+  
+&nbsp; |&nbsp; <a class="navbar-brand logo" href="project.html">
+   <p class="title logo__title">Project Code</p>
+</a>
+ 
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+<!--
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/project.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+-->
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Comparing Machine Learning Models for Stock Market Price Prediction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environmental-setup">Environmental Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-and-preprocessing">Data and Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-validation-and-testing-sets">Training, Validation, and Testing Sets</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-validation">Training and Validation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">Linear Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm">LSTM</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hyper-parameter-tuning">Hyper-parameter Tuning</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accuracy-graphs">Accuracy Graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#day-trading-simulation">Day Trading Simulation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="comparing-machine-learning-models-for-stock-market-price-prediction">
+<h1>Comparing Machine Learning Models for Stock Market Price Prediction<a class="headerlink" href="#comparing-machine-learning-models-for-stock-market-price-prediction" title="Link to this heading">#</a></h1>
+<p><strong>CS 5805: Machine Learning Final Project</strong></p>
+<p>Pranesh Ambokar, Mohammad Heydari, Roshan Ravindran, and Leo St. Amour</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>This project analyzes and compares the performance characteristics and prediction accuracy trade-offs of linear regression and long short-term memory (LSTM) when applied to stock market prediction. We train the models using historical stock data and ask them to predict a stock’s closing price given its opening, low, and high prices.</p>
+</section>
+<section id="environmental-setup">
+<h2>Environmental Setup<a class="headerlink" href="#environmental-setup" title="Link to this heading">#</a></h2>
+<p>This project depends on several <code class="docutils literal notranslate"><span class="pre">python</span></code> machine learning and data science libraries:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pandas</span></code>: a powerful library for manipulating data in a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code>: a library for aiding scientific computing.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>: a library for plotting graphs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>: a machine learning library that implements linear regression.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code>: a machine learning library that provides an LSTM implementation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">keras_tuner</span></code>: a library that aids in hyper-parameter fine-tuning.</p></li>
+</ul>
+<p>To install the dependencies, run the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python3 -m pip install numpy pandas matplotlib scikit-learn tensorflow keras_tuner
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># General libraries</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1"># Scientific computing and data manipulation</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Graphing</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="k">as</span> <span class="nn">mpimg</span>
+
+<span class="c1"># Linear regression</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="c1"># LSTM</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;CUDA_VISIBLE_DEVICES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.callbacks</span> <span class="kn">import</span> <span class="n">EarlyStopping</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.optimizers</span> <span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">LSTM</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Input</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="s1">&#39;ERROR&#39;</span><span class="p">)</span>
+
+<span class="c1">## Fine-tune LSTM hyper-parameters</span>
+<span class="kn">import</span> <span class="nn">keras_tuner</span> <span class="k">as</span> <span class="nn">kt</span>
+
+<span class="c1">## Only retrain the LSTM model if explicitly instructed; otherwise, load a saved model</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.saving</span> <span class="kn">import</span> <span class="n">load_model</span>
+<span class="n">retrain_lstm</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># Prices will be scaled to improve model efficiency</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="c1"># Accuracy metrics</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_absolute_error</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you want to force re-train the LSTM model, uncomment and run the following cell. If not, the saved model will be loaded.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># retrain_lstm = True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-and-preprocessing">
+<h2>Data and Preprocessing<a class="headerlink" href="#data-and-preprocessing" title="Link to this heading">#</a></h2>
+<section id="data">
+<h3>Data<a class="headerlink" href="#data" title="Link to this heading">#</a></h3>
+<p>Our data set consists of historical price data for 100 stocks, 50 of which are large-cap and 50 of which are mid-cap. The data for each stock is stored as a CSV file containing the following columns: <code class="docutils literal notranslate"><span class="pre">Date</span></code>, <code class="docutils literal notranslate"><span class="pre">Open</span></code>, <code class="docutils literal notranslate"><span class="pre">High</span></code>, <code class="docutils literal notranslate"><span class="pre">Low</span></code>, <code class="docutils literal notranslate"><span class="pre">Close</span></code>, <code class="docutils literal notranslate"><span class="pre">Adj</span> <span class="pre">Close</span></code>, and <code class="docutils literal notranslate"><span class="pre">Volume</span></code>. For our experiments, we used the <code class="docutils literal notranslate"><span class="pre">Open</span></code>, <code class="docutils literal notranslate"><span class="pre">High</span></code>, and <code class="docutils literal notranslate"><span class="pre">Low</span></code> columns as input features and the <code class="docutils literal notranslate"><span class="pre">Close</span></code> column as the output. We create our overall data set by aggregating each stock’s historical data into a single data frame.</p>
+<p>After aggregating the data, the data points are sorted by date. This step is important because the training data for the LSTM model <strong>must</strong> maintain its time-series integrity.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define paths for the directories</span>
+<span class="n">mid_cap_path</span> <span class="o">=</span> <span class="s1">&#39;./mid_cap&#39;</span>
+<span class="n">large_cap_path</span> <span class="o">=</span> <span class="s1">&#39;./large_cap&#39;</span>
+
+<span class="c1"># Load files from both directories</span>
+<span class="n">all_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mid_cap_path</span><span class="p">,</span> <span class="s1">&#39;*_data.csv&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">large_cap_path</span><span class="p">,</span> <span class="s1">&#39;*_data.csv&#39;</span><span class="p">))</span>
+
+<span class="n">df_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">csv</span> <span class="ow">in</span> <span class="n">all_files</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">csv</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Extract stock ticker from filename</span>
+    <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;Stock&#39;</span><span class="p">,</span> <span class="s1">&#39;Date&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-validation-and-testing-sets">
+<h3>Training, Validation, and Testing Sets<a class="headerlink" href="#training-validation-and-testing-sets" title="Link to this heading">#</a></h3>
+<p>We split our data set into training, validation, and testing sets using a 70/15/15 ratio. To accomplish this, the first 70% of dates for each stock are added to a testing set, the next 15% for each stock is added to a validation set, and the final 15% is added to a testing set.</p>
+<p>After the training, validation, and testing sets have been established, they are split into input (<code class="docutils literal notranslate"><span class="pre">Open</span></code>, <code class="docutils literal notranslate"><span class="pre">Low</span></code>, and <code class="docutils literal notranslate"><span class="pre">High</span></code>) and output (<code class="docutils literal notranslate"><span class="pre">Close</span></code>) components.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create training/validation/testing sets using a 70/15/15 split</span>
+<span class="n">training_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">validation_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">testing_data</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">stock</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">stock_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">stock</span><span class="p">]</span>
+    <span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stock_data</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">val_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stock_data</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.15</span><span class="p">)</span>
+    
+    <span class="c1"># Split the data for each stock</span>
+    <span class="n">training_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stock_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">train_size</span><span class="p">])</span>
+    <span class="n">validation_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stock_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="p">:</span><span class="n">train_size</span><span class="o">+</span><span class="n">val_size</span><span class="p">])</span>
+    <span class="n">testing_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stock_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_size</span><span class="o">+</span><span class="n">val_size</span><span class="p">:])</span>
+
+<span class="c1"># Concatenate the split data</span>
+<span class="n">training_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">training_data</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">validation_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">validation_data</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">testing_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">testing_data</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Define the features (Open, Low, High) and target (Close)</span>
+<span class="n">training_X</span> <span class="o">=</span> <span class="n">training_data</span><span class="p">[[</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">]]</span>
+<span class="n">training_Y</span> <span class="o">=</span> <span class="n">training_data</span><span class="p">[[</span><span class="s1">&#39;Close&#39;</span><span class="p">]]</span>
+<span class="n">validation_X</span> <span class="o">=</span> <span class="n">validation_data</span><span class="p">[[</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">]]</span>
+<span class="n">validation_Y</span> <span class="o">=</span> <span class="n">validation_data</span><span class="p">[[</span><span class="s1">&#39;Close&#39;</span><span class="p">]]</span>
+<span class="n">testing_X</span> <span class="o">=</span> <span class="n">testing_data</span><span class="p">[[</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">]]</span>
+<span class="n">testing_Y</span> <span class="o">=</span> <span class="n">testing_data</span><span class="p">[[</span><span class="s1">&#39;Close&#39;</span><span class="p">]]</span>
+
+<span class="c1"># Check the number of features in the training data</span>
+<span class="n">num_features</span> <span class="o">=</span> <span class="n">training_X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Output the split data for verification</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training data: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">training_data</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation data: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">validation_data</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Testing data: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">testing_data</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training data: 571741 rows
+Validation data: 122477 rows
+Testing data: 122631 rows
+</pre></div>
+</div>
+</div>
+</div>
+<p>To improve the training efficiency of LSTM, we scale all prices to a value between zero and one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scale the data</span>
+<span class="n">scaler_X</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">(</span><span class="n">feature_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># For the features</span>
+<span class="n">scaler_Y</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">(</span><span class="n">feature_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># For the target (Close)</span>
+
+<span class="c1"># Scale the features and target for training and testing sets</span>
+<span class="n">training_X_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">training_X</span><span class="p">)</span>
+<span class="n">testing_X_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testing_X</span><span class="p">)</span>
+<span class="n">validation_X_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">validation_X</span><span class="p">)</span>
+
+<span class="c1"># Scale the target variable (Close) for training and testing sets</span>
+<span class="n">training_Y_scaled</span> <span class="o">=</span> <span class="n">scaler_Y</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">training_Y</span><span class="p">)</span>
+<span class="n">testing_Y_scaled</span> <span class="o">=</span> <span class="n">scaler_Y</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testing_Y</span><span class="p">)</span>
+<span class="n">validation_Y_scaled</span> <span class="o">=</span> <span class="n">scaler_Y</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">validation_Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The input to an LSTM model is different than a linear regression. Instead of an array of input data points, it accepts an array of sequences. This required us to transform the inputs and outputs of each data set. We have selected 60, meaning that the algorithm will look back for 60 days when training.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_sequences</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">):</span>
+    <span class="n">sequences</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="n">sequence_length</span><span class="p">):</span>
+        <span class="n">seq</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">sequence_length</span><span class="p">]</span>
+        <span class="n">target_value</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">sequence_length</span><span class="p">]</span>
+        <span class="n">sequences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+        <span class="n">targets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target_value</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sequences</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+
+<span class="n">sequence_length</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">training_X_scaled_lstm</span><span class="p">,</span> <span class="n">training_Y_scaled_lstm</span> <span class="o">=</span> <span class="n">create_sequences</span><span class="p">(</span><span class="n">training_X_scaled</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">)</span>
+<span class="n">validation_X_scaled_lstm</span><span class="p">,</span> <span class="n">validation_Y_scaled_lstm</span> <span class="o">=</span> <span class="n">create_sequences</span><span class="p">(</span><span class="n">validation_X_scaled</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">)</span>
+<span class="n">testing_X_scaled_lstm</span><span class="p">,</span> <span class="n">testing_Y_scaled_lstm</span> <span class="o">=</span> <span class="n">create_sequences</span><span class="p">(</span><span class="n">testing_X_scaled</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="training-and-validation">
+<h2>Training and Validation<a class="headerlink" href="#training-and-validation" title="Link to this heading">#</a></h2>
+<section id="linear-regression">
+<h3>Linear Regression<a class="headerlink" href="#linear-regression" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">linear_regression_model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">linear_regression_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training_X_scaled</span><span class="p">,</span> <span class="n">training_Y_scaled</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 61.9 ms, sys: 182 µs, total: 62.1 ms
+Wall time: 59.8 ms
+</pre></div>
+</div>
+<div class="output text_html"><style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LinearRegression()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;LinearRegression<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.linear_model.LinearRegression.html">?<span>Documentation for LinearRegression</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>LinearRegression()</pre></div> </div></div></div></div></div></div>
+</div>
+<p>We are interested in reporting the correlation between the input and output as well as the trained coefficients.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate correlation of features</span>
+<span class="n">correlation</span> <span class="o">=</span> <span class="n">training_data</span><span class="p">[[</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="s1">&#39;Close&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Close&#39;</span><span class="p">)</span>
+
+<span class="c1"># Retrieve regression coefficients from the trained linear regression model</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">linear_regression_model</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">feature_selection_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Feature&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Correlation with Close&#39;</span><span class="p">:</span> <span class="n">correlation</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s1">&#39;Regression Coefficient&#39;</span><span class="p">:</span> <span class="n">coefficients</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_selection_table</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Feature  Correlation with Close  Regression Coefficient
+0    Open                0.999881               -0.375897
+1     Low                0.999956                0.661434
+2    High                0.999959                0.711065
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="lstm">
+<h3>LSTM<a class="headerlink" href="#lstm" title="Link to this heading">#</a></h3>
+<section id="hyper-parameter-tuning">
+<h4>Hyper-parameter Tuning<a class="headerlink" href="#hyper-parameter-tuning" title="Link to this heading">#</a></h4>
+<p>The LSTM model has a number of hyper-parameters that can be tuned to find an optimal model. We have selected:</p>
+<ul class="simple">
+<li><p>Units in the LSTM layer</p></li>
+<li><p>LSTM recurrent dropout rate</p></li>
+<li><p>Droput layer rate</p></li>
+<li><p>Learning rate</p></li>
+</ul>
+<p>Others that we kept static, but could be further explored are:</p>
+<ul class="simple">
+<li><p>The size of training sequences</p></li>
+<li><p>The number of training epochs</p></li>
+<li><p>Larger ranges for selected hyper-parameters</p></li>
+</ul>
+<p>We selected the number of parameters and their ranges to identify optimal values in a feasible amount of computational time. Using the values below, fine-tuning took approximately a day and a half.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">build_model</span><span class="p">(</span><span class="n">hp</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
+        <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">training_X_scaled_lstm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">training_X_scaled_lstm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
+        <span class="n">LSTM</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">hp</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">]),</span>
+             <span class="n">recurrent_dropout</span><span class="o">=</span><span class="n">hp</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span><span class="s1">&#39;recurrent_dropout&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]),</span>
+             <span class="n">return_sequences</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+        <span class="n">Dropout</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span><span class="s1">&#39;dropout&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])),</span>
+        <span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">hp</span><span class="o">.</span><span class="n">Choice</span><span class="p">(</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0005</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">])),</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+<span class="n">tuner</span> <span class="o">=</span> <span class="n">kt</span><span class="o">.</span><span class="n">RandomSearch</span><span class="p">(</span>
+    <span class="n">build_model</span><span class="p">,</span>
+    <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;val_loss&#39;</span><span class="p">,</span>
+    <span class="n">max_trials</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">directory</span><span class="o">=</span><span class="s1">&#39;kt_dir&#39;</span><span class="p">,</span>
+    <span class="n">project_name</span><span class="o">=</span><span class="s1">&#39;lstm_tuning_simple&#39;</span>
+<span class="p">)</span>
+
+<span class="n">tuner</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="n">training_X_scaled_lstm</span><span class="p">,</span> <span class="n">training_Y_scaled_lstm</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="c1"># Fewer epochs for faster evaluation</span>
+    <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">validation_X_scaled_lstm</span><span class="p">,</span> <span class="n">validation_Y_scaled_lstm</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span>
+<span class="p">)</span>
+
+<span class="n">best_hyperparameters</span> <span class="o">=</span> <span class="n">tuner</span><span class="o">.</span><span class="n">get_best_hyperparameters</span><span class="p">(</span><span class="n">num_trials</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best Hyperparameters: </span><span class="si">{</span><span class="n">best_hyperparameters</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reloading Tuner from kt_dir/lstm_tuning_simple/tuner0.json
+Best Hyperparameters: {&#39;units&#39;: 150, &#39;recurrent_dropout&#39;: 0.1, &#39;dropout&#39;: 0.3, &#39;learning_rate&#39;: 0.005}
+</pre></div>
+</div>
+</div>
+</div>
+<p>After identifying the optimum hyper-parameter values, use them to train the model.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">retrain_lstm</span></code> variable is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the model will be re-trained. If the variable is <code class="docutils literal notranslate"><span class="pre">False</span></code>, then the model will be loaded from disk.</p>
+<p>NOTE: When the model was trained for the first time, the training time was approximately 1 hour and 17 minutes. This data is lost when the following cell loads the model instead of re-training it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="k">if</span> <span class="n">retrain_lstm</span><span class="p">:</span>
+    <span class="n">lstm_model</span> <span class="o">=</span> <span class="n">tuner</span><span class="o">.</span><span class="n">hypermodel</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">best_hyperparameters</span><span class="p">)</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="n">lstm_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">training_X_scaled_lstm</span><span class="p">,</span> <span class="n">training_Y_scaled_lstm</span><span class="p">,</span>
+        <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">validation_X_scaled_lstm</span><span class="p">,</span> <span class="n">validation_Y_scaled_lstm</span><span class="p">),</span>
+        <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>  
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span>
+    <span class="p">)</span>
+    <span class="n">lstm_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;lstm_trained.keras&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">lstm_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;lstm_trained.keras&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 124 ms, sys: 8.32 ms, total: 132 ms
+Wall time: 128 ms
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading">#</a></h2>
+<p>We evaluate our models by testing them against each stock in the testing data set. When we test the models, first, we collect the following metrics:</p>
+<ul class="simple">
+<li><p>Mean squared error (MSE)</p></li>
+<li><p>Mean absolute error (MAE)</p></li>
+<li><p>R<span class="math notranslate nohighlight">\(^2\)</span> value</p></li>
+</ul>
+<p>Second, we capture the range of dates comprising the training and testing sets and the time it takes to make a prediction. These metrics are saved in a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> for subsequent analysis. Finally, for each test, we generate and save a graph that compares the predicted closing prices to the actual closing prices.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+    <span class="s1">&#39;Stock&#39;</span><span class="p">,</span> <span class="s1">&#39;Model&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;Train Start&#39;</span><span class="p">,</span> <span class="s1">&#39;Train End&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;Test Start&#39;</span><span class="p">,</span> <span class="s1">&#39;Test End&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;MSE&#39;</span><span class="p">,</span> <span class="s1">&#39;MAE&#39;</span><span class="p">,</span> <span class="s1">&#39;R2&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;Time to Predict&#39;</span>
+<span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">new_metric</span><span class="p">(</span><span class="n">stock_symbol</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+    <span class="n">stock_training_data</span> <span class="o">=</span> <span class="n">training_data</span><span class="p">[</span><span class="n">training_data</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">stock_symbol</span><span class="p">]</span>
+    <span class="n">stock_testing_data</span> <span class="o">=</span> <span class="n">testing_data</span><span class="p">[</span><span class="n">testing_data</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">stock_symbol</span><span class="p">]</span>
+
+    <span class="n">stock_data</span> <span class="o">=</span> <span class="n">testing_data</span><span class="p">[</span><span class="n">testing_data</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">stock_symbol</span><span class="p">]</span>
+    <span class="n">stock_X</span> <span class="o">=</span> <span class="n">stock_data</span><span class="p">[[</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">]]</span>
+    <span class="n">stock_Y</span> <span class="o">=</span> <span class="n">stock_data</span><span class="p">[[</span><span class="s1">&#39;Close&#39;</span><span class="p">]]</span>
+    
+    <span class="c1"># Scale test data</span>
+    <span class="n">stock_X_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">stock_X</span><span class="p">)</span>
+    <span class="n">stock_Y_scaled</span> <span class="o">=</span> <span class="n">scaler_Y</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">stock_Y</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">model</span> <span class="o">==</span> <span class="s1">&#39;LSTM&#39;</span><span class="p">:</span>
+        <span class="n">stock_X_scaled_lstm</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">create_sequences</span><span class="p">(</span><span class="n">stock_X_scaled</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">)</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">predictions_scaled</span> <span class="o">=</span> <span class="n">lstm_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">stock_X_scaled_lstm</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">prediction_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">scaler_Y</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">predictions_scaled</span><span class="p">)</span>
+        <span class="n">actual_values</span> <span class="o">=</span> <span class="n">scaler_Y</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">stock_Y_scaled</span><span class="p">[</span><span class="n">sequence_length</span><span class="p">:])</span>
+        <span class="n">stock_Y_scaled</span> <span class="o">=</span> <span class="n">stock_Y_scaled</span><span class="p">[</span><span class="n">sequence_length</span><span class="p">:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">predictions_scaled</span> <span class="o">=</span> <span class="n">linear_regression_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">stock_X_scaled</span><span class="p">)</span>
+        <span class="n">prediction_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">scaler_Y</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">predictions_scaled</span><span class="p">)</span>
+        <span class="n">actual_values</span> <span class="o">=</span> <span class="n">stock_Y_scaled</span>
+        
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">stock_Y_scaled</span><span class="p">,</span> <span class="n">predictions_scaled</span><span class="p">)</span>
+    <span class="n">mae</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">stock_Y_scaled</span><span class="p">,</span> <span class="n">predictions_scaled</span><span class="p">)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">stock_Y_scaled</span><span class="p">,</span> <span class="n">predictions_scaled</span><span class="p">)</span>
+
+    <span class="c1"># Plot actual vs predicted prices for visualization</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">actual_values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Actual&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Predicted&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Days&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Dollars ($)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">stock_symbol</span><span class="si">}</span><span class="s1"> - Actual vs Predicted Prices&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;graphs/</span><span class="si">{</span><span class="n">stock_symbol</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s1">.png&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;Stock&#39;</span><span class="p">:</span> <span class="n">stock_symbol</span><span class="p">,</span>
+        <span class="s1">&#39;Model&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+        <span class="s1">&#39;Train Start&#39;</span><span class="p">:</span> <span class="n">stock_training_data</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s1">&#39;Train End&#39;</span><span class="p">:</span> <span class="n">stock_training_data</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s1">&#39;Test Start&#39;</span><span class="p">:</span> <span class="n">stock_testing_data</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s1">&#39;Test End&#39;</span><span class="p">:</span> <span class="n">stock_testing_data</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s1">&#39;MSE&#39;</span><span class="p">:</span> <span class="n">mse</span><span class="p">,</span>
+        <span class="s1">&#39;MAE&#39;</span><span class="p">:</span> <span class="n">mae</span><span class="p">,</span>
+        <span class="s1">&#39;R2&#39;</span><span class="p">:</span> <span class="n">r2</span><span class="p">,</span>
+        <span class="s1">&#39;Time to Predict&#39;</span><span class="p">:</span> <span class="n">prediction_time</span>
+    <span class="p">}</span>
+
+<span class="k">for</span> <span class="n">stock</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="n">new_metric</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span> <span class="s1">&#39;LSTM&#39;</span><span class="p">),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="n">new_metric</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span> <span class="s1">&#39;LR&#39;</span><span class="p">),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">metrics</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 49s, sys: 4.46 s, total: 1min 53s
+Wall time: 1min 26s
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Stock</th>
+      <th>Model</th>
+      <th>Train Start</th>
+      <th>Train End</th>
+      <th>Test Start</th>
+      <th>Test End</th>
+      <th>MSE</th>
+      <th>MAE</th>
+      <th>R2</th>
+      <th>Time to Predict</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>005930.KS</td>
+      <td>LSTM</td>
+      <td>2000-01-04 00:00:00+09:00</td>
+      <td>2017-04-05 00:00:00+09:00</td>
+      <td>2021-02-02 00:00:00+09:00</td>
+      <td>2024-11-26 00:00:00+09:00</td>
+      <td>1.718051e+00</td>
+      <td>1.291654</td>
+      <td>-33.005300</td>
+      <td>0.488517</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>005930.KS</td>
+      <td>LR</td>
+      <td>2000-01-04 00:00:00+09:00</td>
+      <td>2017-04-05 00:00:00+09:00</td>
+      <td>2021-02-02 00:00:00+09:00</td>
+      <td>2024-11-26 00:00:00+09:00</td>
+      <td>1.047147e-04</td>
+      <td>0.008220</td>
+      <td>0.997984</td>
+      <td>0.000118</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2222.SR</td>
+      <td>LSTM</td>
+      <td>2019-12-11 00:00:00+03:00</td>
+      <td>2023-05-30 00:00:00+03:00</td>
+      <td>2024-02-25 00:00:00+03:00</td>
+      <td>2024-11-26 00:00:00+03:00</td>
+      <td>1.187878e-08</td>
+      <td>0.000109</td>
+      <td>-57.573413</td>
+      <td>0.079754</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2222.SR</td>
+      <td>LR</td>
+      <td>2019-12-11 00:00:00+03:00</td>
+      <td>2023-05-30 00:00:00+03:00</td>
+      <td>2024-02-25 00:00:00+03:00</td>
+      <td>2024-11-26 00:00:00+03:00</td>
+      <td>2.122870e-09</td>
+      <td>0.000046</td>
+      <td>-0.743424</td>
+      <td>0.000096</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>600519.SS</td>
+      <td>LSTM</td>
+      <td>2001-08-27 00:00:00+08:00</td>
+      <td>2017-10-25 00:00:00+08:00</td>
+      <td>2021-05-13 00:00:00+08:00</td>
+      <td>2024-11-26 00:00:00+08:00</td>
+      <td>1.529482e-06</td>
+      <td>0.000965</td>
+      <td>0.887262</td>
+      <td>0.229779</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>YELP</td>
+      <td>LR</td>
+      <td>2012-03-02 00:00:00-05:00</td>
+      <td>2021-02-01 00:00:00-05:00</td>
+      <td>2022-12-28 00:00:00-05:00</td>
+      <td>2024-11-26 00:00:00-05:00</td>
+      <td>2.142295e-09</td>
+      <td>0.000046</td>
+      <td>0.907104</td>
+      <td>0.000104</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>ZBRA</td>
+      <td>LSTM</td>
+      <td>1991-08-15 00:00:00-04:00</td>
+      <td>2014-11-26 00:00:00-05:00</td>
+      <td>2019-11-26 00:00:00-05:00</td>
+      <td>2024-11-26 00:00:00-05:00</td>
+      <td>1.390780e-07</td>
+      <td>0.000298</td>
+      <td>0.985866</td>
+      <td>0.332057</td>
+    </tr>
+    <tr>
+      <th>197</th>
+      <td>ZBRA</td>
+      <td>LR</td>
+      <td>1991-08-15 00:00:00-04:00</td>
+      <td>2014-11-26 00:00:00-05:00</td>
+      <td>2019-11-26 00:00:00-05:00</td>
+      <td>2024-11-26 00:00:00-05:00</td>
+      <td>9.542538e-09</td>
+      <td>0.000076</td>
+      <td>0.999018</td>
+      <td>0.000114</td>
+    </tr>
+    <tr>
+      <th>198</th>
+      <td>ZION</td>
+      <td>LSTM</td>
+      <td>1980-03-17 00:00:00-05:00</td>
+      <td>2011-06-20 00:00:00-04:00</td>
+      <td>2018-03-09 00:00:00-05:00</td>
+      <td>2024-11-26 00:00:00-05:00</td>
+      <td>9.190022e-09</td>
+      <td>0.000090</td>
+      <td>0.875841</td>
+      <td>0.422137</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>ZION</td>
+      <td>LR</td>
+      <td>1980-03-17 00:00:00-05:00</td>
+      <td>2011-06-20 00:00:00-04:00</td>
+      <td>2018-03-09 00:00:00-05:00</td>
+      <td>2024-11-26 00:00:00-05:00</td>
+      <td>2.245474e-09</td>
+      <td>0.000046</td>
+      <td>0.968677</td>
+      <td>0.000114</td>
+    </tr>
+  </tbody>
+</table>
+<p>200 rows × 10 columns</p>
+</div></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 432x288 with 0 Axes&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">[</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;Model&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;LSTM&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">[</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;Model&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;LR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                MSE         MAE          R2  Time to Predict
+count  1.000000e+02  100.000000  100.000000       100.000000
+mean   1.718054e-02    0.013026   -0.061432         0.377172
+std    1.718051e-01    0.129154    6.753361         0.199697
+min    1.073158e-09    0.000023  -57.573413         0.079754
+25%    5.778439e-09    0.000063    0.912855         0.229182
+50%    9.238444e-09    0.000082    0.977283         0.373332
+75%    2.111002e-08    0.000122    0.990870         0.486358
+max    1.718051e+00    1.291654    0.998832         1.319289
+                MSE         MAE          R2  Time to Predict
+count  1.000000e+02  100.000000  100.000000       100.000000
+mean   1.061115e-06    0.000157    0.956476         0.000129
+std    1.047012e-05    0.000818    0.176965         0.000027
+min    2.210366e-10    0.000011   -0.743424         0.000096
+25%    2.241096e-09    0.000046    0.970335         0.000112
+50%    3.086958e-09    0.000048    0.988275         0.000120
+75%    7.109775e-09    0.000068    0.997126         0.000136
+max    1.047147e-04    0.008220    0.999627         0.000243
+</pre></div>
+</div>
+</div>
+</div>
+<p>Some stocks include a negative R<span class="math notranslate nohighlight">\(^2\)</span> value, which does not make sense mathematically. This is likely due to vastly different mean values between training and testing sets. See this <a class="reference external" href="https://stackoverflow.com/questions/23036866/scikit-learn-is-returning-coefficient-of-determination-r2-values-less-than-1">stack overflow post</a> for more details. We decided to drop any stocks for which either model resulted in a negative R<span class="math notranslate nohighlight">\(^2\)</span> value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stocks_to_keep</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Stock&#39;</span><span class="p">)[</span><span class="s1">&#39;R2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">stocks_with_negative_r2</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Stock&#39;</span><span class="p">)[</span><span class="s1">&#39;R2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">cleaned_metrics</span> <span class="o">=</span> <span class="n">metrics</span><span class="p">[</span><span class="n">stocks_to_keep</span><span class="p">]</span>
+<span class="n">unusual_metrics</span> <span class="o">=</span> <span class="n">metrics</span><span class="p">[</span><span class="n">stocks_with_negative_r2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>After removing the rows with negative R<span class="math notranslate nohighlight">\(^2\)</span> values, we get metrics (mean, min, max, etc.) that make much more sense.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">cleaned_metrics</span><span class="p">[</span><span class="n">cleaned_metrics</span><span class="p">[</span><span class="s1">&#39;Model&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;LSTM&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cleaned_metrics</span><span class="p">[</span><span class="n">cleaned_metrics</span><span class="p">[</span><span class="s1">&#39;Model&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;LR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                MSE        MAE         R2  Time to Predict
+count  9.600000e+01  96.000000  96.000000        96.000000
+mean   3.894118e-08   0.000110   0.935895         0.383501
+std    1.589024e-07   0.000111   0.112403         0.198662
+min    1.073158e-09   0.000023   0.290762         0.081351
+25%    5.634920e-09   0.000063   0.937110         0.253904
+50%    9.142392e-09   0.000080   0.978954         0.378560
+75%    2.111002e-08   0.000121   0.991427         0.488424
+max    1.529482e-06   0.000965   0.998832         1.319289
+                MSE        MAE         R2  Time to Predict
+count  9.600000e+01  96.000000  96.000000        96.000000
+mean   1.448265e-08   0.000076   0.977783         0.000129
+std    3.523183e-08   0.000073   0.027252         0.000027
+min    2.210366e-10   0.000011   0.881954         0.000097
+25%    2.259764e-09   0.000046   0.971851         0.000112
+50%    3.170435e-09   0.000048   0.988644         0.000121
+75%    7.109775e-09   0.000068   0.997126         0.000136
+max    2.821536e-07   0.000480   0.999627         0.000243
+</pre></div>
+</div>
+</div>
+</div>
+<p>We removed four stocks from the data set. These stocks can be further investigated to understand why they produced unusual R<span class="math notranslate nohighlight">\(^2\)</span> values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unusual_metrics</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Stock</th>
+      <th>Model</th>
+      <th>Train Start</th>
+      <th>Train End</th>
+      <th>Test Start</th>
+      <th>Test End</th>
+      <th>MSE</th>
+      <th>MAE</th>
+      <th>R2</th>
+      <th>Time to Predict</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>005930.KS</td>
+      <td>LSTM</td>
+      <td>2000-01-04 00:00:00+09:00</td>
+      <td>2017-04-05 00:00:00+09:00</td>
+      <td>2021-02-02 00:00:00+09:00</td>
+      <td>2024-11-26 00:00:00+09:00</td>
+      <td>1.718051e+00</td>
+      <td>1.291654</td>
+      <td>-33.005300</td>
+      <td>0.488517</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>005930.KS</td>
+      <td>LR</td>
+      <td>2000-01-04 00:00:00+09:00</td>
+      <td>2017-04-05 00:00:00+09:00</td>
+      <td>2021-02-02 00:00:00+09:00</td>
+      <td>2024-11-26 00:00:00+09:00</td>
+      <td>1.047147e-04</td>
+      <td>0.008220</td>
+      <td>0.997984</td>
+      <td>0.000118</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2222.SR</td>
+      <td>LSTM</td>
+      <td>2019-12-11 00:00:00+03:00</td>
+      <td>2023-05-30 00:00:00+03:00</td>
+      <td>2024-02-25 00:00:00+03:00</td>
+      <td>2024-11-26 00:00:00+03:00</td>
+      <td>1.187878e-08</td>
+      <td>0.000109</td>
+      <td>-57.573413</td>
+      <td>0.079754</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2222.SR</td>
+      <td>LR</td>
+      <td>2019-12-11 00:00:00+03:00</td>
+      <td>2023-05-30 00:00:00+03:00</td>
+      <td>2024-02-25 00:00:00+03:00</td>
+      <td>2024-11-26 00:00:00+03:00</td>
+      <td>2.122870e-09</td>
+      <td>0.000046</td>
+      <td>-0.743424</td>
+      <td>0.000096</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>HBI</td>
+      <td>LSTM</td>
+      <td>2006-09-06 00:00:00-04:00</td>
+      <td>2019-06-10 00:00:00-04:00</td>
+      <td>2022-03-03 00:00:00-05:00</td>
+      <td>2024-11-26 00:00:00-05:00</td>
+      <td>1.852838e-08</td>
+      <td>0.000136</td>
+      <td>-5.112241</td>
+      <td>0.217333</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>HBI</td>
+      <td>LR</td>
+      <td>2006-09-06 00:00:00-04:00</td>
+      <td>2019-06-10 00:00:00-04:00</td>
+      <td>2022-03-03 00:00:00-05:00</td>
+      <td>2024-11-26 00:00:00-05:00</td>
+      <td>2.147926e-09</td>
+      <td>0.000046</td>
+      <td>0.663123</td>
+      <td>0.000151</td>
+    </tr>
+    <tr>
+      <th>176</th>
+      <td>VVV</td>
+      <td>LSTM</td>
+      <td>2016-09-23 00:00:00-04:00</td>
+      <td>2022-06-13 00:00:00-04:00</td>
+      <td>2023-09-06 00:00:00-04:00</td>
+      <td>2024-11-26 00:00:00-05:00</td>
+      <td>8.558006e-09</td>
+      <td>0.000090</td>
+      <td>-0.298146</td>
+      <td>0.115523</td>
+    </tr>
+    <tr>
+      <th>177</th>
+      <td>VVV</td>
+      <td>LR</td>
+      <td>2016-09-23 00:00:00-04:00</td>
+      <td>2022-06-13 00:00:00-04:00</td>
+      <td>2023-09-06 00:00:00-04:00</td>
+      <td>2024-11-26 00:00:00-05:00</td>
+      <td>2.161890e-09</td>
+      <td>0.000046</td>
+      <td>0.862790</td>
+      <td>0.000112</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="accuracy-graphs">
+<h3>Accuracy Graphs<a class="headerlink" href="#accuracy-graphs" title="Link to this heading">#</a></h3>
+<p>The R<span class="math notranslate nohighlight">\(^2\)</span> values demonstrated by our metrics suggest that both models perform well at predicting closing prices. To better visualize the accuracies of the models, we output side-by-side graphs depicting the difference between the actual and predicted closing prices for each model and stock.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">show_graphs</span><span class="p">(</span><span class="n">stock_symbol</span><span class="p">):</span>
+    <span class="n">image1</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;graphs/</span><span class="si">{</span><span class="n">stock_symbol</span><span class="si">}</span><span class="s1">-LR.png&#39;</span><span class="p">)</span>
+    <span class="n">image2</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;graphs/</span><span class="si">{</span><span class="n">stock_symbol</span><span class="si">}</span><span class="s1">-LSTM.png&#39;</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+    <span class="c1"># Display image 1</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image1</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Display image 2</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image2</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Show the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">stock</span> <span class="ow">in</span> <span class="n">cleaned_metrics</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">show_graphs</span><span class="p">(</span><span class="n">stock</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e10ebef2aba4cdcd3a31f6c9a6daeb3a0b35734573ade8bf2f95915d2646537c.png" src="_images/e10ebef2aba4cdcd3a31f6c9a6daeb3a0b35734573ade8bf2f95915d2646537c.png" />
+<img alt="_images/1aca6f80bf470628db92b7a70de227b326bf31182cc7e50bd9f21e85238f74c3.png" src="_images/1aca6f80bf470628db92b7a70de227b326bf31182cc7e50bd9f21e85238f74c3.png" />
+<img alt="_images/3efe35657f4f04a28a8caf93e2071ae1590a0470b6783e888e4bbdd6fdaef731.png" src="_images/3efe35657f4f04a28a8caf93e2071ae1590a0470b6783e888e4bbdd6fdaef731.png" />
+<img alt="_images/af6b61d4ed1dc44382dd358ee97b6f9a69d71039b8a798abdb8a509c69bb92b3.png" src="_images/af6b61d4ed1dc44382dd358ee97b6f9a69d71039b8a798abdb8a509c69bb92b3.png" />
+<img alt="_images/acb703ab3ba558f33fc073a0aca6396305a59fc2421f28ff2340af4e6d9ace30.png" src="_images/acb703ab3ba558f33fc073a0aca6396305a59fc2421f28ff2340af4e6d9ace30.png" />
+<img alt="_images/3231dc784f780ffbb7d45e8df735f5d6eb2ded4a28b7a73346f2d6afd8a11e14.png" src="_images/3231dc784f780ffbb7d45e8df735f5d6eb2ded4a28b7a73346f2d6afd8a11e14.png" />
+<img alt="_images/b1f37864c63b7b49591e94e883e44ec5b3af9b5b08880669fbfbe0021dea5601.png" src="_images/b1f37864c63b7b49591e94e883e44ec5b3af9b5b08880669fbfbe0021dea5601.png" />
+<img alt="_images/6d595740aa508257b80d5547f7c578b0238d312bdb60241af4a7f66bed461223.png" src="_images/6d595740aa508257b80d5547f7c578b0238d312bdb60241af4a7f66bed461223.png" />
+<img alt="_images/adb13bf8a136b25621f93b23ad435f488ecc3640d9b3060ea5242451f58ee708.png" src="_images/adb13bf8a136b25621f93b23ad435f488ecc3640d9b3060ea5242451f58ee708.png" />
+<img alt="_images/808675b72e9362a1d224d7b8048eb975912c3380082445ed12c52492e4ddf450.png" src="_images/808675b72e9362a1d224d7b8048eb975912c3380082445ed12c52492e4ddf450.png" />
+<img alt="_images/fe080d978a4e4e1ceb1aff647e16178bad92ae01dbbef5bc1baee9f179455d71.png" src="_images/fe080d978a4e4e1ceb1aff647e16178bad92ae01dbbef5bc1baee9f179455d71.png" />
+<img alt="_images/3eb39362ccaacc11695e35810e2efcae02e1cb004d50fcf8cc4c6cfee57df80c.png" src="_images/3eb39362ccaacc11695e35810e2efcae02e1cb004d50fcf8cc4c6cfee57df80c.png" />
+<img alt="_images/85c9556bcf1819ad60b10629dec942dced9b9e23c565217d358b47c962b2b6e2.png" src="_images/85c9556bcf1819ad60b10629dec942dced9b9e23c565217d358b47c962b2b6e2.png" />
+<img alt="_images/947062347852e3841b239913568f56f979513b7e18b3a8b838e8f74b053ed374.png" src="_images/947062347852e3841b239913568f56f979513b7e18b3a8b838e8f74b053ed374.png" />
+<img alt="_images/8b9c248a56011836a0775242b3b4be4db5cd117229b2f3545a92f90e0b54dd96.png" src="_images/8b9c248a56011836a0775242b3b4be4db5cd117229b2f3545a92f90e0b54dd96.png" />
+<img alt="_images/6fa3ccde911e97702654001e0603fac7b6eff6cf3745cdec37d02ef83340658f.png" src="_images/6fa3ccde911e97702654001e0603fac7b6eff6cf3745cdec37d02ef83340658f.png" />
+<img alt="_images/4ed2dfcda7a4428f4cc79b5c2f7fcbc5c65b2c2f7df7202a5de7df3dcd77405f.png" src="_images/4ed2dfcda7a4428f4cc79b5c2f7fcbc5c65b2c2f7df7202a5de7df3dcd77405f.png" />
+<img alt="_images/f813dc633ab0fb34cf35519ebd467ad6616fcbe1487b6e820e2866e70e516d67.png" src="_images/f813dc633ab0fb34cf35519ebd467ad6616fcbe1487b6e820e2866e70e516d67.png" />
+<img alt="_images/c4e5315f590184da590da9959c54adc4dea9d591820483aa66c7ee0e9b976880.png" src="_images/c4e5315f590184da590da9959c54adc4dea9d591820483aa66c7ee0e9b976880.png" />
+<img alt="_images/d0f260f3bf7e340d5e4c1c4ea8d4f35029b4dff43db2e202f2127b2893742508.png" src="_images/d0f260f3bf7e340d5e4c1c4ea8d4f35029b4dff43db2e202f2127b2893742508.png" />
+<img alt="_images/f76824f49bcd4383a8031603e7e1be1431dc278487f1f4c30186a7f773357d94.png" src="_images/f76824f49bcd4383a8031603e7e1be1431dc278487f1f4c30186a7f773357d94.png" />
+<img alt="_images/b379c31a88d66d64004c9689fe9c5b12d9b5d0ada975566e01a93da6ba0d91a7.png" src="_images/b379c31a88d66d64004c9689fe9c5b12d9b5d0ada975566e01a93da6ba0d91a7.png" />
+<img alt="_images/750d15cc5c282a9f623aef7372c0b1aaa75d4cff2812351e3053cbd4efa817ec.png" src="_images/750d15cc5c282a9f623aef7372c0b1aaa75d4cff2812351e3053cbd4efa817ec.png" />
+<img alt="_images/6b9d7f8285c147752a4d57484bcb6e62d4c1ea0cf4a1fae53983f4e60ca0345b.png" src="_images/6b9d7f8285c147752a4d57484bcb6e62d4c1ea0cf4a1fae53983f4e60ca0345b.png" />
+<img alt="_images/a751718ac8d43561061c6d4243138585db613f767480180eb8f3e8b37b14f550.png" src="_images/a751718ac8d43561061c6d4243138585db613f767480180eb8f3e8b37b14f550.png" />
+<img alt="_images/e48857d4bb72f393d4166b7cea372493b744c9d07866fee50008b0998747106a.png" src="_images/e48857d4bb72f393d4166b7cea372493b744c9d07866fee50008b0998747106a.png" />
+<img alt="_images/2946859b011bddb9ead9677165ee2c8bd0f31735f4562e1364e41d7fcd519fb9.png" src="_images/2946859b011bddb9ead9677165ee2c8bd0f31735f4562e1364e41d7fcd519fb9.png" />
+<img alt="_images/e77ad1715c373e54c06d1d1da9f76f310ab9a61e53864afdc71ce2d7b569f932.png" src="_images/e77ad1715c373e54c06d1d1da9f76f310ab9a61e53864afdc71ce2d7b569f932.png" />
+<img alt="_images/d72d671dd59b40a31e18aed522ebc74a547cd31ceff117f1b33a3c7e6bfa7ae9.png" src="_images/d72d671dd59b40a31e18aed522ebc74a547cd31ceff117f1b33a3c7e6bfa7ae9.png" />
+<img alt="_images/dae69b5a630bb6f6c42f888baaa5ace86d9e33573b81b39535ea6d27661c88c0.png" src="_images/dae69b5a630bb6f6c42f888baaa5ace86d9e33573b81b39535ea6d27661c88c0.png" />
+<img alt="_images/c7f9b6c171e748e3810952c6e6cd4f9b884ee292a7a6d115c4dc08211c540b8a.png" src="_images/c7f9b6c171e748e3810952c6e6cd4f9b884ee292a7a6d115c4dc08211c540b8a.png" />
+<img alt="_images/7526626317efad0846c3dc5b6594e6db175571ef7bb1b7f510675108400d7b2c.png" src="_images/7526626317efad0846c3dc5b6594e6db175571ef7bb1b7f510675108400d7b2c.png" />
+<img alt="_images/33e786e52a4827c3598548cf78cb3e03f619d7c25e5a3b2751cca42f85c01eb5.png" src="_images/33e786e52a4827c3598548cf78cb3e03f619d7c25e5a3b2751cca42f85c01eb5.png" />
+<img alt="_images/7b1d5371a0f928f5edfdcac7cd84fac9be5c87d2c65f5444969cb063fee32aab.png" src="_images/7b1d5371a0f928f5edfdcac7cd84fac9be5c87d2c65f5444969cb063fee32aab.png" />
+<img alt="_images/56cf67ff59571284403cd34a76d336db0cfdaa15921f6732d93cecf64daa51f6.png" src="_images/56cf67ff59571284403cd34a76d336db0cfdaa15921f6732d93cecf64daa51f6.png" />
+<img alt="_images/58220c0941d3d651507340b37d2c17eda04032742d017feaba354ffd200cc416.png" src="_images/58220c0941d3d651507340b37d2c17eda04032742d017feaba354ffd200cc416.png" />
+<img alt="_images/f821c455f0f9d28cc2ae8ae7ca0ca045116ea395a181a8a7e64352a4064a8f40.png" src="_images/f821c455f0f9d28cc2ae8ae7ca0ca045116ea395a181a8a7e64352a4064a8f40.png" />
+<img alt="_images/786975b99b863cb2695f76840f6256590ec1f11a693dc58fdaa9c4f06d804330.png" src="_images/786975b99b863cb2695f76840f6256590ec1f11a693dc58fdaa9c4f06d804330.png" />
+<img alt="_images/3b3c685654ddf775b960fa56c06295aca833f4f439af806d5476d9605b369ce8.png" src="_images/3b3c685654ddf775b960fa56c06295aca833f4f439af806d5476d9605b369ce8.png" />
+<img alt="_images/215c632cb5ec2d0ad8c4f22abafa46cb54151b1fcf06663b52d73fdd9cadd22f.png" src="_images/215c632cb5ec2d0ad8c4f22abafa46cb54151b1fcf06663b52d73fdd9cadd22f.png" />
+<img alt="_images/1c2ab486f56d09e19f36cba20656ac64535302e95cb8cd599360053a625c64fb.png" src="_images/1c2ab486f56d09e19f36cba20656ac64535302e95cb8cd599360053a625c64fb.png" />
+<img alt="_images/4c7b7f01b5863e8da971a5b42322e60e207cd290b7d3b50726b65245c2b53809.png" src="_images/4c7b7f01b5863e8da971a5b42322e60e207cd290b7d3b50726b65245c2b53809.png" />
+<img alt="_images/afa01ae75a4acd4a76cde178b8da4e1a29c7e80626ad46b0e9d06b0b7f5ed221.png" src="_images/afa01ae75a4acd4a76cde178b8da4e1a29c7e80626ad46b0e9d06b0b7f5ed221.png" />
+<img alt="_images/77f6e18285d11b3bc354277c029ccf4a0b1772689135958a51f433ec37f967d1.png" src="_images/77f6e18285d11b3bc354277c029ccf4a0b1772689135958a51f433ec37f967d1.png" />
+<img alt="_images/f28cb065f8196209153d6767f97623900771771ed83a659949d490abed3b9c6f.png" src="_images/f28cb065f8196209153d6767f97623900771771ed83a659949d490abed3b9c6f.png" />
+<img alt="_images/1979eda58b42e62aa50206112798087552ffd94888896ef67ac5256c26b8b880.png" src="_images/1979eda58b42e62aa50206112798087552ffd94888896ef67ac5256c26b8b880.png" />
+<img alt="_images/147541c43a7c3b18eb4bb99f54f377092be5fe8019edb4bf2bfe320c8979b079.png" src="_images/147541c43a7c3b18eb4bb99f54f377092be5fe8019edb4bf2bfe320c8979b079.png" />
+<img alt="_images/05dcee8e1db7e7c7e15949162f0e162483ee31ad5eab321e1f50b78aa3abbe87.png" src="_images/05dcee8e1db7e7c7e15949162f0e162483ee31ad5eab321e1f50b78aa3abbe87.png" />
+<img alt="_images/9ed22fc3fcaaef79c334778952bee81fd92d65914a334cf6dabb56bb6b721a75.png" src="_images/9ed22fc3fcaaef79c334778952bee81fd92d65914a334cf6dabb56bb6b721a75.png" />
+<img alt="_images/753bc0544bb1759316005e8dc764cbf227ed6cf9897fb4c0a97e30f34087cb19.png" src="_images/753bc0544bb1759316005e8dc764cbf227ed6cf9897fb4c0a97e30f34087cb19.png" />
+<img alt="_images/30e4bdb6b388bb22e5bce5acc4d224ac89012552dad61db35c8873538a685887.png" src="_images/30e4bdb6b388bb22e5bce5acc4d224ac89012552dad61db35c8873538a685887.png" />
+<img alt="_images/b07f5079dd9dc54ae3c96cc6b9bbe61c8cab39bc830aec37aa4b14ad663b7b70.png" src="_images/b07f5079dd9dc54ae3c96cc6b9bbe61c8cab39bc830aec37aa4b14ad663b7b70.png" />
+<img alt="_images/0f69b517505204121fb766699d79c77fe348c7bb670a53621c0bae2872bf1e10.png" src="_images/0f69b517505204121fb766699d79c77fe348c7bb670a53621c0bae2872bf1e10.png" />
+<img alt="_images/c76d3496ba23dad683a1211768639fbfce786d844fb9a263f167afa685dc478d.png" src="_images/c76d3496ba23dad683a1211768639fbfce786d844fb9a263f167afa685dc478d.png" />
+<img alt="_images/61959aec6dc6cf967ef68ddb123ab8eb7cf90d5147bdf36cddfb28bd8b6daf9f.png" src="_images/61959aec6dc6cf967ef68ddb123ab8eb7cf90d5147bdf36cddfb28bd8b6daf9f.png" />
+<img alt="_images/17ce48a5393002379fe4034d99b5b1ef8549b6e65a7c95e12faa38e7f1985109.png" src="_images/17ce48a5393002379fe4034d99b5b1ef8549b6e65a7c95e12faa38e7f1985109.png" />
+<img alt="_images/5ab234bb5772e1685636d9afb7e1cbaed012fe7dfb7e20f9f47da2fe8b98ae4b.png" src="_images/5ab234bb5772e1685636d9afb7e1cbaed012fe7dfb7e20f9f47da2fe8b98ae4b.png" />
+<img alt="_images/bd481e1134d38c4bf76ab99153d861ab184988e3ce0d2304e2e1b87132013d94.png" src="_images/bd481e1134d38c4bf76ab99153d861ab184988e3ce0d2304e2e1b87132013d94.png" />
+<img alt="_images/9acdbaea1fa79b56467ddb3a90f22793a483e47fe76227bbd8cde822cbbfaaca.png" src="_images/9acdbaea1fa79b56467ddb3a90f22793a483e47fe76227bbd8cde822cbbfaaca.png" />
+<img alt="_images/e6e03c39e5e066d1b7a4400064854d45fb6d064a1d538dc68d3e739ada918722.png" src="_images/e6e03c39e5e066d1b7a4400064854d45fb6d064a1d538dc68d3e739ada918722.png" />
+<img alt="_images/52b6eaac6183dc16950c1ecb99cc762d32094275acc1afab9b1ab7afeac24600.png" src="_images/52b6eaac6183dc16950c1ecb99cc762d32094275acc1afab9b1ab7afeac24600.png" />
+<img alt="_images/7f3074d7b78cd3a8caa7e0246dc637ebcdb33ff8a997734f1ebf805b4ae6fd93.png" src="_images/7f3074d7b78cd3a8caa7e0246dc637ebcdb33ff8a997734f1ebf805b4ae6fd93.png" />
+<img alt="_images/2afb2dd1edd4bbb56dd107369eb0413be1f4c9e231d1bb8290a28a2089ffe7b1.png" src="_images/2afb2dd1edd4bbb56dd107369eb0413be1f4c9e231d1bb8290a28a2089ffe7b1.png" />
+<img alt="_images/0f902c6fde37742e78f515d35c488f961a4077a436258a1ad5abc86294dd7d07.png" src="_images/0f902c6fde37742e78f515d35c488f961a4077a436258a1ad5abc86294dd7d07.png" />
+<img alt="_images/0108eeebdf368c54b01c69eec5de1a0bbd75a8fd6a087c0a8c56f7845f2b7fb3.png" src="_images/0108eeebdf368c54b01c69eec5de1a0bbd75a8fd6a087c0a8c56f7845f2b7fb3.png" />
+<img alt="_images/1fe8f4eb38474dd7dfd5f50a95da9cc78fa33d5374a2f1ca4fd21f661ec2ebe8.png" src="_images/1fe8f4eb38474dd7dfd5f50a95da9cc78fa33d5374a2f1ca4fd21f661ec2ebe8.png" />
+<img alt="_images/32166b318f367db28dca0a68bfde025c1992a3d4b191f467f12e2e54a37f2f2c.png" src="_images/32166b318f367db28dca0a68bfde025c1992a3d4b191f467f12e2e54a37f2f2c.png" />
+<img alt="_images/c017cefef936ab6bdd600c35edb58dcfb13920d71124ecde51546b52c3456587.png" src="_images/c017cefef936ab6bdd600c35edb58dcfb13920d71124ecde51546b52c3456587.png" />
+<img alt="_images/d73ce298659f0820dbf8fe5d805099c931d3d5e107103bb7891a721bff3b704b.png" src="_images/d73ce298659f0820dbf8fe5d805099c931d3d5e107103bb7891a721bff3b704b.png" />
+<img alt="_images/aa464644455ffdc422583d034b63a2f0065302213edafd9b0574b97fb906b5e2.png" src="_images/aa464644455ffdc422583d034b63a2f0065302213edafd9b0574b97fb906b5e2.png" />
+<img alt="_images/fc1e5e872276f9bc1e41888f955a8c17da4fb8f60f943faab21f33236f3be700.png" src="_images/fc1e5e872276f9bc1e41888f955a8c17da4fb8f60f943faab21f33236f3be700.png" />
+<img alt="_images/d774429e754442bbc23911af8d9898cd372486e8cb248cbf9904ea515a624962.png" src="_images/d774429e754442bbc23911af8d9898cd372486e8cb248cbf9904ea515a624962.png" />
+<img alt="_images/950f9f6a662196b1148618b6269cc98354fdd3514253a7baeb2f6170f2caecf2.png" src="_images/950f9f6a662196b1148618b6269cc98354fdd3514253a7baeb2f6170f2caecf2.png" />
+<img alt="_images/cdbd4fc25e99e6a0aecb64faf0cb1d4d0d7283019f91618f7b6eefb7a74a7a5b.png" src="_images/cdbd4fc25e99e6a0aecb64faf0cb1d4d0d7283019f91618f7b6eefb7a74a7a5b.png" />
+<img alt="_images/48a461067107c8ed0dbde5cca35184627501e30526850f49e7c0ee73e418492f.png" src="_images/48a461067107c8ed0dbde5cca35184627501e30526850f49e7c0ee73e418492f.png" />
+<img alt="_images/346ed3b5613006e504c60b6a41aeca02cd6882351bace1a6dbb91eceeb922c89.png" src="_images/346ed3b5613006e504c60b6a41aeca02cd6882351bace1a6dbb91eceeb922c89.png" />
+<img alt="_images/16410e60f077893843244a5e53ac99d8767571c5fe0dbd7037e1400f16c5a40c.png" src="_images/16410e60f077893843244a5e53ac99d8767571c5fe0dbd7037e1400f16c5a40c.png" />
+<img alt="_images/41096877ee3b75d661d70f02df81115e8cee88f344ecaf948989ddaa46d485c2.png" src="_images/41096877ee3b75d661d70f02df81115e8cee88f344ecaf948989ddaa46d485c2.png" />
+<img alt="_images/565a065ca4a14c1d6019bcf1976572185d80b874a3e4f51de767be0a02481d12.png" src="_images/565a065ca4a14c1d6019bcf1976572185d80b874a3e4f51de767be0a02481d12.png" />
+<img alt="_images/d2e4eeee499c60ab604e947c1668955174ec2fb23212a7ffb2178f724e223a71.png" src="_images/d2e4eeee499c60ab604e947c1668955174ec2fb23212a7ffb2178f724e223a71.png" />
+<img alt="_images/e3206fed4a84ee2f556f1886295e846b3ba570f46b79a469692dadad53904184.png" src="_images/e3206fed4a84ee2f556f1886295e846b3ba570f46b79a469692dadad53904184.png" />
+<img alt="_images/8da45b033d8126268aeb9fb660adf3db1e3b2650b01006acb8647c9845410084.png" src="_images/8da45b033d8126268aeb9fb660adf3db1e3b2650b01006acb8647c9845410084.png" />
+<img alt="_images/30e853cb18e4292138220676178b052a4b50ddefc93fe65d29e86a02228588bd.png" src="_images/30e853cb18e4292138220676178b052a4b50ddefc93fe65d29e86a02228588bd.png" />
+<img alt="_images/33d59419351dd986e7ab5685e793112f17c7fe8d45ae499d2df6322f697bdbc4.png" src="_images/33d59419351dd986e7ab5685e793112f17c7fe8d45ae499d2df6322f697bdbc4.png" />
+<img alt="_images/67898f18ef457e87d7d5cdcd74509840d67da0957c84b1fc782d7abee500f0e6.png" src="_images/67898f18ef457e87d7d5cdcd74509840d67da0957c84b1fc782d7abee500f0e6.png" />
+<img alt="_images/ae399f1760e1b2b8c44d00be254cd2197c584631400ee4dc3df30711dc7422ab.png" src="_images/ae399f1760e1b2b8c44d00be254cd2197c584631400ee4dc3df30711dc7422ab.png" />
+<img alt="_images/2cdbfd50a320937ca2a2fc4cc2ff6f52e788a43014c60ea8d74bb2f87dae368c.png" src="_images/2cdbfd50a320937ca2a2fc4cc2ff6f52e788a43014c60ea8d74bb2f87dae368c.png" />
+<img alt="_images/356498dedbfced72ab552f04151ddcb0a1626d9694d242e2a062d92b235716f0.png" src="_images/356498dedbfced72ab552f04151ddcb0a1626d9694d242e2a062d92b235716f0.png" />
+<img alt="_images/617caa4e0fecc91e1d2219211463bfae5c25770ccb94dc81a1ccaee68a8e440f.png" src="_images/617caa4e0fecc91e1d2219211463bfae5c25770ccb94dc81a1ccaee68a8e440f.png" />
+<img alt="_images/2d0066fdd0e8c2f095729cc26e64ed368f7fc692159fdf7f71ad21c5f755d084.png" src="_images/2d0066fdd0e8c2f095729cc26e64ed368f7fc692159fdf7f71ad21c5f755d084.png" />
+<img alt="_images/e92aa82218d28c63a7dedd0f62dfcd07e048baa58d655a137188fbdf299dfd47.png" src="_images/e92aa82218d28c63a7dedd0f62dfcd07e048baa58d655a137188fbdf299dfd47.png" />
+<img alt="_images/97b4e1a6a747ffa55960609b2f094ad5826c83149e59c9634ffed0b151159953.png" src="_images/97b4e1a6a747ffa55960609b2f094ad5826c83149e59c9634ffed0b151159953.png" />
+<img alt="_images/d2b2dc7a9cc2d3aef392ce886eab57549827820167b25375acd7c30f64d3488c.png" src="_images/d2b2dc7a9cc2d3aef392ce886eab57549827820167b25375acd7c30f64d3488c.png" />
+<img alt="_images/d542e4e2d334b22c749cebc2838a5d8565d7f2508b768424ce28858d72ba7057.png" src="_images/d542e4e2d334b22c749cebc2838a5d8565d7f2508b768424ce28858d72ba7057.png" />
+<img alt="_images/d4063dcf8d13a315c8735ea2a5fb2c0a58cc9b666ed06cb45688ee5b0cccdbe4.png" src="_images/d4063dcf8d13a315c8735ea2a5fb2c0a58cc9b666ed06cb45688ee5b0cccdbe4.png" />
+<img alt="_images/f76345ee391905c77f723799e04aedd7cec8070bb0b2164fc0d39567a52d3e84.png" src="_images/f76345ee391905c77f723799e04aedd7cec8070bb0b2164fc0d39567a52d3e84.png" />
+</div>
+</div>
+<p>Notice that for the unusual stocks, we see a greater margin of error for (in most cases) both models.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">stock</span> <span class="ow">in</span> <span class="n">unusual_metrics</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">show_graphs</span><span class="p">(</span><span class="n">stock</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/303f667f461a25e139aff709ec84725aa1a52aa6d4e373bd47939c54fa585c45.png" src="_images/303f667f461a25e139aff709ec84725aa1a52aa6d4e373bd47939c54fa585c45.png" />
+<img alt="_images/b259132742a2b8a465c1471a77817674a4b70fad585f949c8b9b1c0492dc30d1.png" src="_images/b259132742a2b8a465c1471a77817674a4b70fad585f949c8b9b1c0492dc30d1.png" />
+<img alt="_images/3a54fb8a085a442166892a0cc16dcbfba94f04c8a200aa3c586701cf3ebd24d2.png" src="_images/3a54fb8a085a442166892a0cc16dcbfba94f04c8a200aa3c586701cf3ebd24d2.png" />
+<img alt="_images/2f36a47f18ca49754364326fc8da2c68d18f4148cc9c6eed997369f0bb200d20.png" src="_images/2f36a47f18ca49754364326fc8da2c68d18f4148cc9c6eed997369f0bb200d20.png" />
+</div>
+</div>
+</section>
+<section id="day-trading-simulation">
+<h3>Day Trading Simulation<a class="headerlink" href="#day-trading-simulation" title="Link to this heading">#</a></h3>
+<p>To better quantify the real-world impact of each model, we implement a simulation to evaluate the model’s ability to make day trading predictions. Specifically, we randomly select several stocks and predict which of those stocks would produce the highest yield on the last day of data (i.e., the greatest difference between the closing and opening price). We then compare the prediction to the stock that produced the greatest yield. We select two stocks and calculate the accuracy based on 100 trials. We repeat this process, incrementing the number of stocks chosen by one until we reach 30.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">day_trading_simulation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_stocks</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+    <span class="c1"># Test different numbers of stocks</span>
+    <span class="n">stock_accuracies</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_stocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+ 
+    <span class="k">for</span> <span class="n">num_stocks</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_stocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trials</span><span class="p">):</span>
+            <span class="n">stocks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">cleaned_metrics</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span> <span class="n">num_stocks</span><span class="p">)</span>
+            <span class="n">diffs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">stock</span> <span class="ow">in</span> <span class="n">stocks</span><span class="p">:</span>
+                <span class="n">test_rows</span> <span class="o">=</span> <span class="n">testing_data</span><span class="p">[</span><span class="n">testing_data</span><span class="p">[</span><span class="s1">&#39;Stock&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">stock</span><span class="p">]</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Predict for last day</span>
+                <span class="n">test_open</span> <span class="o">=</span> <span class="n">test_rows</span><span class="p">[</span><span class="s1">&#39;Open&#39;</span><span class="p">]</span>
+                <span class="n">test_close</span> <span class="o">=</span> <span class="n">test_rows</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span>
+                
+                <span class="n">actual_diffs</span> <span class="o">=</span> <span class="n">test_close</span> <span class="o">-</span> <span class="n">test_open</span>
+                
+                <span class="n">stock_X</span> <span class="o">=</span> <span class="n">test_rows</span><span class="p">[[</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">]]</span>
+                <span class="n">stock_Y</span> <span class="o">=</span> <span class="n">test_rows</span><span class="p">[[</span><span class="s1">&#39;Close&#39;</span><span class="p">]]</span>
+                <span class="n">stock_X_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">stock_X</span><span class="p">)</span>
+                <span class="n">stock_Y_scaled</span> <span class="o">=</span> <span class="n">scaler_Y</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">stock_Y</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">model_type</span> <span class="o">==</span> <span class="s1">&#39;LSTM&#39;</span><span class="p">:</span>
+                    <span class="n">stock_X_scaled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">stock_X_scaled</span><span class="p">])</span>
+                    <span class="n">predictions_scaled</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">stock_X_scaled</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">predictions_scaled</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">stock_X_scaled</span><span class="p">)</span>
+                <span class="n">predictions</span> <span class="o">=</span> <span class="n">scaler_Y</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">predictions_scaled</span><span class="p">)</span>
+                <span class="n">predicted_diffs</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">test_open</span>
+                <span class="n">diffs</span><span class="p">[</span><span class="n">stock</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">predicted_diffs</span><span class="p">,</span> <span class="n">actual_diffs</span><span class="p">)</span>
+ 
+            <span class="n">best_stock_diff_predicted</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">best_stock_predicted</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">best_stock_diff_actual</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">best_stock_actual</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">stock</span> <span class="ow">in</span> <span class="n">stocks</span><span class="p">:</span>
+                <span class="n">predicted</span> <span class="o">=</span> <span class="n">diffs</span><span class="p">[</span><span class="n">stock</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Just look at first day</span>
+                <span class="k">if</span> <span class="n">predicted</span> <span class="o">&gt;</span> <span class="n">best_stock_diff_predicted</span><span class="p">:</span>
+                    <span class="n">best_stock_diff_predicted</span> <span class="o">=</span> <span class="n">predicted</span>
+                    <span class="n">best_stock_predicted</span> <span class="o">=</span> <span class="n">stock</span>
+                <span class="n">actual</span> <span class="o">=</span> <span class="n">diffs</span><span class="p">[</span><span class="n">stock</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Just look at first day</span>
+                <span class="k">if</span> <span class="n">actual</span> <span class="o">&gt;</span> <span class="n">best_stock_diff_actual</span><span class="p">:</span>
+                    <span class="n">best_stock_diff_actual</span> <span class="o">=</span> <span class="n">actual</span>
+                    <span class="n">best_stock_actual</span> <span class="o">=</span> <span class="n">stock</span>
+            <span class="n">accuracy</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">best_stock_actual</span> <span class="o">==</span> <span class="n">best_stock_predicted</span> <span class="k">else</span> <span class="mf">0.0</span>
+            <span class="n">stock_accuracies</span><span class="p">[</span><span class="n">num_stocks</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>
+     
+    <span class="c1"># Create plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+     
+    <span class="c1"># Plot mean accuracy for each number of stocks with confidence intervals</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stock_accuracies</span><span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_stocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">stds</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">stock_accuracies</span><span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_stocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">conf_intervals</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.96</span> <span class="o">*</span> <span class="n">std</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_trials</span><span class="p">)</span> <span class="k">for</span> <span class="n">std</span> <span class="ow">in</span> <span class="n">stds</span><span class="p">]</span>  <span class="c1"># 95% confidence intervals</span>
+     
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_stocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">means</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_stocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> 
+                     <span class="p">[</span><span class="n">m</span> <span class="o">-</span> <span class="n">ci</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">ci</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">conf_intervals</span><span class="p">)],</span>
+                     <span class="p">[</span><span class="n">m</span> <span class="o">+</span> <span class="n">ci</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">ci</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">conf_intervals</span><span class="p">)],</span>
+                     <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+ 
+    <span class="c1"># Add random baseline</span>
+    <span class="n">random_baseline</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_stocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_stocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">random_baseline</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Guess (1/n)&#39;</span><span class="p">)</span>
+     
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Prediction Accuracy vs Number of Stocks (1-day prediction)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Stocks&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Average Accuracy&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+     
+    <span class="c1"># Add mean accuracy values on top of points</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">mean</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">means</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mean</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+     
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;graphs/day-trading-simulation-</span><span class="si">{</span><span class="n">model_type</span><span class="si">}</span><span class="s1">.png&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="c1">#plt.clf()</span>
+     
+    <span class="c1"># Print summary statistics</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Summary for each number of stocks:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">num_stocks</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_stocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">num_stocks</span><span class="si">}</span><span class="s2"> stocks:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean accuracy: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stock_accuracies</span><span class="p">[</span><span class="n">num_stocks</span><span class="p">])</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Random guess: </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="n">num_stocks</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Std dev: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">stock_accuracies</span><span class="p">[</span><span class="n">num_stocks</span><span class="p">])</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95% CI: (</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stock_accuracies</span><span class="p">[</span><span class="n">num_stocks</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.96</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">stock_accuracies</span><span class="p">[</span><span class="n">num_stocks</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_trials</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stock_accuracies</span><span class="p">[</span><span class="n">num_stocks</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1.96</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">stock_accuracies</span><span class="p">[</span><span class="n">num_stocks</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_trials</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We conduct the day trading simulation with each model and output the results for comparison.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">day_trading_simulation</span><span class="p">(</span><span class="n">linear_regression_model</span><span class="p">,</span> <span class="s1">&#39;LR&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d3dbc6ea80b0fdb607b1486c5cced7ab884b84eb895efd8c9aa2a976c09079be.png" src="_images/d3dbc6ea80b0fdb607b1486c5cced7ab884b84eb895efd8c9aa2a976c09079be.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Summary for each number of stocks:
+
+2 stocks:
+Mean accuracy: 0.690
+Random guess: 0.500
+Std dev: 0.462
+95% CI: (0.599, 0.781)
+
+3 stocks:
+Mean accuracy: 0.570
+Random guess: 0.333
+Std dev: 0.495
+95% CI: (0.473, 0.667)
+
+4 stocks:
+Mean accuracy: 0.560
+Random guess: 0.250
+Std dev: 0.496
+95% CI: (0.463, 0.657)
+
+5 stocks:
+Mean accuracy: 0.480
+Random guess: 0.200
+Std dev: 0.500
+95% CI: (0.382, 0.578)
+
+6 stocks:
+Mean accuracy: 0.410
+Random guess: 0.167
+Std dev: 0.492
+95% CI: (0.314, 0.506)
+
+7 stocks:
+Mean accuracy: 0.360
+Random guess: 0.143
+Std dev: 0.480
+95% CI: (0.266, 0.454)
+
+8 stocks:
+Mean accuracy: 0.500
+Random guess: 0.125
+Std dev: 0.500
+95% CI: (0.402, 0.598)
+
+9 stocks:
+Mean accuracy: 0.440
+Random guess: 0.111
+Std dev: 0.496
+95% CI: (0.343, 0.537)
+
+10 stocks:
+Mean accuracy: 0.540
+Random guess: 0.100
+Std dev: 0.498
+95% CI: (0.442, 0.638)
+
+11 stocks:
+Mean accuracy: 0.460
+Random guess: 0.091
+Std dev: 0.498
+95% CI: (0.362, 0.558)
+
+12 stocks:
+Mean accuracy: 0.450
+Random guess: 0.083
+Std dev: 0.497
+95% CI: (0.352, 0.548)
+
+13 stocks:
+Mean accuracy: 0.450
+Random guess: 0.077
+Std dev: 0.497
+95% CI: (0.352, 0.548)
+
+14 stocks:
+Mean accuracy: 0.480
+Random guess: 0.071
+Std dev: 0.500
+95% CI: (0.382, 0.578)
+
+15 stocks:
+Mean accuracy: 0.460
+Random guess: 0.067
+Std dev: 0.498
+95% CI: (0.362, 0.558)
+
+16 stocks:
+Mean accuracy: 0.510
+Random guess: 0.062
+Std dev: 0.500
+95% CI: (0.412, 0.608)
+
+17 stocks:
+Mean accuracy: 0.520
+Random guess: 0.059
+Std dev: 0.500
+95% CI: (0.422, 0.618)
+
+18 stocks:
+Mean accuracy: 0.540
+Random guess: 0.056
+Std dev: 0.498
+95% CI: (0.442, 0.638)
+
+19 stocks:
+Mean accuracy: 0.540
+Random guess: 0.053
+Std dev: 0.498
+95% CI: (0.442, 0.638)
+
+20 stocks:
+Mean accuracy: 0.470
+Random guess: 0.050
+Std dev: 0.499
+95% CI: (0.372, 0.568)
+
+21 stocks:
+Mean accuracy: 0.490
+Random guess: 0.048
+Std dev: 0.500
+95% CI: (0.392, 0.588)
+
+22 stocks:
+Mean accuracy: 0.540
+Random guess: 0.045
+Std dev: 0.498
+95% CI: (0.442, 0.638)
+
+23 stocks:
+Mean accuracy: 0.680
+Random guess: 0.043
+Std dev: 0.466
+95% CI: (0.589, 0.771)
+
+24 stocks:
+Mean accuracy: 0.630
+Random guess: 0.042
+Std dev: 0.483
+95% CI: (0.535, 0.725)
+
+25 stocks:
+Mean accuracy: 0.570
+Random guess: 0.040
+Std dev: 0.495
+95% CI: (0.473, 0.667)
+
+26 stocks:
+Mean accuracy: 0.590
+Random guess: 0.038
+Std dev: 0.492
+95% CI: (0.494, 0.686)
+
+27 stocks:
+Mean accuracy: 0.640
+Random guess: 0.037
+Std dev: 0.480
+95% CI: (0.546, 0.734)
+
+28 stocks:
+Mean accuracy: 0.520
+Random guess: 0.036
+Std dev: 0.500
+95% CI: (0.422, 0.618)
+
+29 stocks:
+Mean accuracy: 0.550
+Random guess: 0.034
+Std dev: 0.497
+95% CI: (0.452, 0.648)
+
+30 stocks:
+Mean accuracy: 0.550
+Random guess: 0.033
+Std dev: 0.497
+95% CI: (0.452, 0.648)
+CPU times: user 11min 16s, sys: 305 ms, total: 11min 16s
+Wall time: 11min 16s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">day_trading_simulation</span><span class="p">(</span><span class="n">lstm_model</span><span class="p">,</span> <span class="s1">&#39;LSTM&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/67ce239c9e6a8cd1266958a8ebe2c6cef01a779e58a9235c5b27794dd88a5860.png" src="_images/67ce239c9e6a8cd1266958a8ebe2c6cef01a779e58a9235c5b27794dd88a5860.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Summary for each number of stocks:
+
+2 stocks:
+Mean accuracy: 0.450
+Random guess: 0.500
+Std dev: 0.497
+95% CI: (0.352, 0.548)
+
+3 stocks:
+Mean accuracy: 0.280
+Random guess: 0.333
+Std dev: 0.449
+95% CI: (0.192, 0.368)
+
+4 stocks:
+Mean accuracy: 0.190
+Random guess: 0.250
+Std dev: 0.392
+95% CI: (0.113, 0.267)
+
+5 stocks:
+Mean accuracy: 0.190
+Random guess: 0.200
+Std dev: 0.392
+95% CI: (0.113, 0.267)
+
+6 stocks:
+Mean accuracy: 0.170
+Random guess: 0.167
+Std dev: 0.376
+95% CI: (0.096, 0.244)
+
+7 stocks:
+Mean accuracy: 0.140
+Random guess: 0.143
+Std dev: 0.347
+95% CI: (0.072, 0.208)
+
+8 stocks:
+Mean accuracy: 0.230
+Random guess: 0.125
+Std dev: 0.421
+95% CI: (0.148, 0.312)
+
+9 stocks:
+Mean accuracy: 0.230
+Random guess: 0.111
+Std dev: 0.421
+95% CI: (0.148, 0.312)
+
+10 stocks:
+Mean accuracy: 0.170
+Random guess: 0.100
+Std dev: 0.376
+95% CI: (0.096, 0.244)
+
+11 stocks:
+Mean accuracy: 0.180
+Random guess: 0.091
+Std dev: 0.384
+95% CI: (0.105, 0.255)
+
+12 stocks:
+Mean accuracy: 0.170
+Random guess: 0.083
+Std dev: 0.376
+95% CI: (0.096, 0.244)
+
+13 stocks:
+Mean accuracy: 0.120
+Random guess: 0.077
+Std dev: 0.325
+95% CI: (0.056, 0.184)
+
+14 stocks:
+Mean accuracy: 0.150
+Random guess: 0.071
+Std dev: 0.357
+95% CI: (0.080, 0.220)
+
+15 stocks:
+Mean accuracy: 0.130
+Random guess: 0.067
+Std dev: 0.336
+95% CI: (0.064, 0.196)
+
+16 stocks:
+Mean accuracy: 0.090
+Random guess: 0.062
+Std dev: 0.286
+95% CI: (0.034, 0.146)
+
+17 stocks:
+Mean accuracy: 0.140
+Random guess: 0.059
+Std dev: 0.347
+95% CI: (0.072, 0.208)
+
+18 stocks:
+Mean accuracy: 0.150
+Random guess: 0.056
+Std dev: 0.357
+95% CI: (0.080, 0.220)
+
+19 stocks:
+Mean accuracy: 0.160
+Random guess: 0.053
+Std dev: 0.367
+95% CI: (0.088, 0.232)
+
+20 stocks:
+Mean accuracy: 0.170
+Random guess: 0.050
+Std dev: 0.376
+95% CI: (0.096, 0.244)
+
+21 stocks:
+Mean accuracy: 0.160
+Random guess: 0.048
+Std dev: 0.367
+95% CI: (0.088, 0.232)
+
+22 stocks:
+Mean accuracy: 0.150
+Random guess: 0.045
+Std dev: 0.357
+95% CI: (0.080, 0.220)
+
+23 stocks:
+Mean accuracy: 0.150
+Random guess: 0.043
+Std dev: 0.357
+95% CI: (0.080, 0.220)
+
+24 stocks:
+Mean accuracy: 0.180
+Random guess: 0.042
+Std dev: 0.384
+95% CI: (0.105, 0.255)
+
+25 stocks:
+Mean accuracy: 0.280
+Random guess: 0.040
+Std dev: 0.449
+95% CI: (0.192, 0.368)
+
+26 stocks:
+Mean accuracy: 0.230
+Random guess: 0.038
+Std dev: 0.421
+95% CI: (0.148, 0.312)
+
+27 stocks:
+Mean accuracy: 0.190
+Random guess: 0.037
+Std dev: 0.392
+95% CI: (0.113, 0.267)
+
+28 stocks:
+Mean accuracy: 0.270
+Random guess: 0.036
+Std dev: 0.444
+95% CI: (0.183, 0.357)
+
+29 stocks:
+Mean accuracy: 0.150
+Random guess: 0.034
+Std dev: 0.357
+95% CI: (0.080, 0.220)
+
+30 stocks:
+Mean accuracy: 0.190
+Random guess: 0.033
+Std dev: 0.392
+95% CI: (0.113, 0.267)
+CPU times: user 1h 6min 52s, sys: 1min 25s, total: 1h 8min 18s
+Wall time: 1h 6min 49s
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pieriantraining.com/tensorflow-lstm-example-a-beginners-guide">https://pieriantraining.com/tensorflow-lstm-example-a-beginners-guide</a>. This reference was instrumental in helping us understand how to use the <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> library. Specifically, we leveraged this tutorial’s <code class="docutils literal notranslate"><span class="pre">create_sequences</span></code> function to appropriately pre-process the input data.</p></li>
+<li><p>We utilized ChatGPT to help write helper functions for graphing the results and ingesting/aggregating the individual stock CSV files.</p></li>
+<li><p>References regarding model details and the applications of linear regression and LSTM for stock market prediction can be found in the paper.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+<!--               
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Comparing Machine Learning Models for Stock Market Price Prediction</p>
+      </div>
+    </a>
+</div>
+-->
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environmental-setup">Environmental Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-and-preprocessing">Data and Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-validation-and-testing-sets">Training, Validation, and Testing Sets</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-validation">Training and Validation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression">Linear Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm">LSTM</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hyper-parameter-tuning">Hyper-parameter Tuning</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accuracy-graphs">Accuracy Graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#day-trading-simulation">Day Trading Simulation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
