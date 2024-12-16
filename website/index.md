@@ -13,6 +13,6 @@ We train the models using historical stock data and ask them to predict a stock'
 
 - Our code can be viewed directly on the webiste [here](project). 
 Alternatively, it can be viewed on our GitHub [repository](https://github.com/1stl0ve/cs5805-project).
-- Project <a href="/files/cs5805-final-report.pdf">paper</a>
-- Project presentation <a href="/files/cs5805-presentation-slides.pdf">slides</a>
+- Project <a href="files/cs5805-final-report.pdf">paper</a>
+- Project presentation <a href="files/cs5805-presentation-slides.pdf">slides</a>
 
